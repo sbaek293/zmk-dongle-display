@@ -15,7 +15,8 @@ Design inspired by [carrefinho/prospector](https://github.com/carrefinho/prospec
 | `case_body.stl`  | Main case body — STL format (ready to print) |
 | `rear_cap.step`  | Rear snap-fit cap — STEP format |
 | `rear_cap.stl`   | Rear snap-fit cap — STL format |
-| `generate_case.py` | CadQuery parametric source — modify dimensions and re-run to regenerate |
+| `generate_case.py`   | CadQuery parametric source — modify dimensions and re-run to regenerate  |
+| `generate_case.scad` | OpenSCAD parametric source — same design, usable directly in OpenSCAD   |
 
 ---
 
@@ -65,6 +66,8 @@ Design inspired by [carrefinho/prospector](https://github.com/carrefinho/prospec
 
 ## Regenerating the Files
 
+### Option A — CadQuery (Python)
+
 Requires [CadQuery](https://cadquery.readthedocs.io) ≥ 2.7:
 
 ```bash
@@ -74,3 +77,23 @@ python3 case/generate_case.py
 
 All dimensions are defined as named constants at the top of `generate_case.py`  
 and can be adjusted to fit different display modules or controllers.
+
+### Option B — OpenSCAD
+
+Open `generate_case.scad` in [OpenSCAD](https://openscad.org/) (≥ 2021.01).
+
+- Set the `RENDER` variable at the top to `"body"`, `"cap"`, or `"both"`.
+- Press **F6** (full render) then **File → Export → Export as STL**.
+
+Or use the command line:
+
+```bash
+# Main case body
+openscad -o case_body.stl -D 'RENDER="body"' case/generate_case.scad
+
+# Rear cap
+openscad -o rear_cap.stl  -D 'RENDER="cap"'  case/generate_case.scad
+```
+
+All dimensions are defined as named constants at the top of `generate_case.scad`  
+and match those in `generate_case.py`.
